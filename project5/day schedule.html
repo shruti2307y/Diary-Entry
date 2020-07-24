@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>
+	Diary entry
+</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script>
+function save() {
+	var str=document.getElementById("Text").value;
+
+  if (str.length == 0) {
+    alert("Write something");
+    return;
+  } else {
+    var xmlhttp = new XMLHttpRequest();
+    
+    xmlhttp.onreadystatechange = function() {
+
+      if (this.readyState == 4 && this.status == 200) {
+        alert("succesfully saved");
+      }
+    };
+    xmlhttp.open("POST", "save_entry.php?q=" + str, true);
+    xmlhttp.send();
+
+  }
+}
+/*function myentry(){
+	
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(this.readyState==4&&this.status==200){
+			document.getElementById("hereentries").innerHTML=this.responseText;
+		}
+		xmlhttp.open("GET","myentries.php",true);
+		xmlhttp.send();
+	}
+}*/
+function printentry(){
+ var str=document.getElementById("Text").value;
+ print(str);
+}
+function reset(){
+	document.getElementById("Text").value="";
+}
+$(document).ready(function(){
+	$("#bring").click(function(event){
+		alert("load success");
+		$("#hereentries").load("/myentries.php");
+	});
+});
+</script>
+</head>
+<body class="bg-dark">
+	<nav class="navbar navbar-inverse bg-danger">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand text-dark font-weight-bolder" href="day schedule.html">Diary Entry  <span class="glyphicon glyphicon-book"></span></a>
+			</div>
+			<button class="navbar-btn navbar-right btn btn-white" id="myentries" onclick="location.href='myentries.php'" type="button" >
+				My Entries <span class="glyphicon glyphicon-th-list"></span>
+			</button>
+			<button class=" navbar-btn navbar-right btn btn-dark " id="print" onclick="printentry()" type="button" ><span class="glyphicon glyphicon-print"></span>
+				Print
+			</button>
+		</div>
+	</nav>
+	<div class="container">
+		<!--<form action="save_entry.php" method="GET">-->
+	<div class="form-group">
+		<label for="Entry" class="text-white">Write about your day here <span class="glyphicon glyphicon-pencil"></span></label>
+		<textarea class="form-control" name="text" rows="20" id="Text"></textarea> 
+	</div>
+	<button class="btn btn-md btn-primary" type="submit" id="save" onclick="save()">Save <span class="glyphicon glyphicon-ok"></span></button>
+	<button class="btn btn-md btn-primary" type="submit" id="reset" onclick="reset()">Reset <span class="glyphicon glyphicon-remove"></span></button>
+<!--</form>-->
+<!--</form>-->
+<button class="btn" type="button" id="bring">Show</button>
+<div class="container" id="hereentries">
+
+</div>
+</div>
+
+</body>
+</html>
